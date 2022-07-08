@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 
-export function errorHandler(error: { type: string; message: string }, req: Request, res: Response, next: NextFunction) {
-    if (error.type === "notFound") return res.sendStatus(404);
-    if(error.type === "invalidFormat") return res.sendStatus(400);
-};
+export async function errorHandler (error, req: Request, res: Response, next: NextFunction) {
+    console.log(error);
+    if (error.response) {
+      return res.sendStatus(error.response.status);
+    }
+  
+    res.sendStatus(500); // internal server error
+  }
